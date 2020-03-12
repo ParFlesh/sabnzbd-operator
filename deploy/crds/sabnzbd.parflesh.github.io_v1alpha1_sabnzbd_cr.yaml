@@ -1,0 +1,7 @@
+apiVersion: sabnzbd.parflesh.github.io/v1alpha1
+kind: SABnzbd
+metadata:
+  name: example-sabnzbd
+spec:
+  # Add fields here
+  size: 3
