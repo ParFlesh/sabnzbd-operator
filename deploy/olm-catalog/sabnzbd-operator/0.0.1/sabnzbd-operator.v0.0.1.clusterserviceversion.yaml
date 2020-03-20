@@ -23,8 +23,72 @@ spec:
   customresourcedefinitions:
     owned:
     - description: SABnzbd is the Schema for the sabnzbds API
+      displayName: SABnzbd
       kind: SABnzbd
       name: sabnzbds.sabnzbd.parflesh.github.io
+      resources:
+      - kind: Deployment
+        name: sabnzbd-operator
+        version: v1
+      - kind: Service
+        name: sabnzbd-operator
+        version: v1
+      specDescriptors:
+      - description: Additional Volumes to be mounted in SABnzbd container
+        displayName: Additional Volumes
+        path: additionalVolumes
+      - description: SABnzbd Config Volume mounted to /config
+        displayName: Config Volume
+        path: configVolume
+      - description: Stop automatic updates when hash for image tag changes
+        displayName: Disable Image Updates
+        path: disableUpdates
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:booleanSwitch
+      - description: 'Container image capable of running SABnzbd (Default: quay.io/parflesh/sabnzbd:latest)'
+        displayName: Container Image
+        path: image
+      - description: Image pull secret for private container images
+        displayName: Image Pull Secret
+        path: imagePullSecret
+        x-descriptors:
+        - urn:alm:descriptor:io.kubernetes:Secret
+      - description: Priority Class Name
+        displayName: Priority Class Name
+        path: priorityClassName
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:text
+      - description: Run as Group Id
+        displayName: GroupID
+        path: runAsGroup
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:number
+      - description: Run as User Id
+        displayName: User ID
+        path: runAsUser
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:number
+      - description: 'Time to wait between checking resource status (Default: 1m)'
+        displayName: Watch Frequency
+        path: watchFrequency
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:text
+      statusDescriptors:
+      - description: Desired Image hash for container
+        displayName: Image
+        path: image
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:text
+      - description: Phase
+        displayName: Phase
+        path: phase
+        x-descriptors:
+        - urn:alm:descriptor:io.kubernetes.phase
+      - description: Reason
+        displayName: Reason
+        path: reason
+        x-descriptors:
+        - urn:alm:descriptor:io.kubernetes.phase:reason
       version: v1alpha1
   description: Placeholder description
   displayName: Sabnzbd Operator
@@ -57,7 +121,7 @@ spec:
                       fieldPath: metadata.name
                 - name: OPERATOR_NAME
                   value: sabnzbd-operator
-                image: REPLACE_IMAGE
+                image: quay.io/parflesh/sabnzbd-operator:0.0.1
                 imagePullPolicy: Always
                 name: sabnzbd-operator
                 resources: {}

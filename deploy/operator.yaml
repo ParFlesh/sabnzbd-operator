@@ -16,7 +16,7 @@ spec:
       containers:
         - name: sabnzbd-operator
           # Replace this with the built image name
-          image: REPLACE_IMAGE
+          image: quay.io/parflesh/sabnzbd-operator:0.0.1
           command:
           - sabnzbd-operator
           imagePullPolicy: Always
