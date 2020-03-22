@@ -3,5 +3,7 @@ kind: SABnzbd
 metadata:
   name: example-sabnzbd
 spec:
-  # Add fields here
-  size: 3
+  volumes:
+    - name: config
+      mountPath: /config
+      claim: example-sabnzbd

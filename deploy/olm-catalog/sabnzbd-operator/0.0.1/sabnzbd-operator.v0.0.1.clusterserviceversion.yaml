@@ -11,7 +11,13 @@ metadata:
             "name": "example-sabnzbd"
           },
           "spec": {
-            "size": 3
+            "volumes": [
+              {
+                "claim": "example-sabnzbd",
+                "mountPath": "/config",
+                "name": "config"
+              }
+            ]
           }
         }
       ]
@@ -34,46 +40,82 @@ spec:
         name: sabnzbd-operator
         version: v1
       specDescriptors:
-      - description: Additional Volumes to be mounted in SABnzbd container
-        displayName: Additional Volumes
-        path: additionalVolumes
-      - description: SABnzbd Config Volume mounted to /config
-        displayName: Config Volume
-        path: configVolume
       - description: Stop automatic updates when hash for image tag changes
         displayName: Disable Image Updates
         path: disableUpdates
         x-descriptors:
         - urn:alm:descriptor:com.tectonic.ui:booleanSwitch
+        - urn:alm:descriptor:com.tectonic.ui:fieldGroup:update
+      - description: Filesystem Group
+        displayName: Filesystem GroupID
+        path: fsGroup
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:fieldGroup:pod
+        - urn:alm:descriptor:com.tectonic.ui:number
       - description: 'Container image capable of running SABnzbd (Default: quay.io/parflesh/sabnzbd:latest)'
         displayName: Container Image
         path: image
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:fieldGroup:pod
       - description: Image pull secret for private container images
         displayName: Image Pull Secret
         path: imagePullSecret
         x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:fieldGroup:pod
         - urn:alm:descriptor:io.kubernetes:Secret
       - description: Priority Class Name
         displayName: Priority Class Name
         path: priorityClassName
         x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:fieldGroup:pod
         - urn:alm:descriptor:com.tectonic.ui:text
       - description: Run as Group Id
         displayName: GroupID
         path: runAsGroup
         x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:fieldGroup:pod
         - urn:alm:descriptor:com.tectonic.ui:number
       - description: Run as User Id
         displayName: User ID
         path: runAsUser
         x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:fieldGroup:pod
         - urn:alm:descriptor:com.tectonic.ui:number
+      - description: Persistent Volume Claim
+        displayName: Persistent Volume Claim
+        path: volumes[0].claim
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:arrayFieldGroup:volumes
+        - urn:alm:descriptor:io.kubernetes:PersistentVolumeClaim
+      - description: Mount path for volume
+        displayName: Mount Path
+        path: volumes[0].mountPath
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:arrayFieldGroup:volumes
+        - urn:alm:descriptor:com.tectonic.ui:text
+      - description: Name
+        displayName: Name
+        path: volumes[0].name
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:arrayFieldGroup:volumes
+        - urn:alm:descriptor:com.tectonic.ui:text
+      - description: Volume SubPath
+        displayName: Sub Path
+        path: volumes[0].subPath
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:arrayFieldGroup:volumes
+        - urn:alm:descriptor:com.tectonic.ui:text
       - description: 'Time to wait between checking resource status (Default: 1m)'
         displayName: Watch Frequency
         path: watchFrequency
         x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:fieldGroup:update
         - urn:alm:descriptor:com.tectonic.ui:text
       statusDescriptors:
+      - displayName: Deployments
+        path: deployments
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:podStatuses
       - description: Desired Image hash for container
         displayName: Image
         path: image
@@ -92,6 +134,9 @@ spec:
       version: v1alpha1
   description: Placeholder description
   displayName: Sabnzbd Operator
+  icon:
+  - base64data: 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
+    mediatype: image/png
   install:
     spec:
       deployments:
