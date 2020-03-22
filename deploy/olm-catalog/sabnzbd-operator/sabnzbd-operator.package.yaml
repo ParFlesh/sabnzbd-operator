@@ -1,7 +1,7 @@
 channels:
-- currentCSV: sabnzbd-operator.v0.0.1
+- currentCSV: sabnzbd-operator.v0.0.2
   name: alpha
-- currentCSV: sabnzbd-operator.v0.0.1
+- currentCSV: sabnzbd-operator.v0.0.2
   name: stable
 defaultChannel: stable
 packageName: sabnzbd-operator

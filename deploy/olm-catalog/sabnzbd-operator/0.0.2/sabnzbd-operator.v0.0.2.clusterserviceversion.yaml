@@ -22,7 +22,7 @@ metadata:
         }
       ]
     capabilities: Basic Install
-  name: sabnzbd-operator.v0.0.1
+  name: sabnzbd-operator.v0.0.2
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -270,5 +270,5 @@ spec:
   provider:
     name: ParFlesh
     url: https://github.com/ParFlesh
-  replaces: sabnzbd-operator.v0.0.0
-  version: 0.0.1
+  replaces: sabnzbd-operator.v0.0.1
+  version: 0.0.2

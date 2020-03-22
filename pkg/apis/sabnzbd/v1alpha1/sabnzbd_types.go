@@ -67,7 +67,8 @@ type SABnzbdSpec struct {
 	FSGroup int64 `json:"fsGroup,omitempty"`
 
 	// +listType=atomic
-	Volumes []SABnzbdSpecVolume `json:"volumes"`
+	// +optional
+	Volumes []SABnzbdSpecVolume `json:"volumes,omitempty"`
 }
 
 type SABnzbdSpecVolume struct {
