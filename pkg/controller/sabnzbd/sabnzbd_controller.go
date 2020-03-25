@@ -236,7 +236,7 @@ func (r *ReconcileSABnzbd) newDeployment(cr *sabnzbdv1alpha1.SABnzbd) (*appsv1.D
 					Containers: []corev1.Container{
 						{
 							Name:  "sabnzbd",
-							Image: cr.Status.Image,
+							Image: cr.Spec.Image,
 							Ports: []corev1.ContainerPort{
 								{
 									Name:          "http",
