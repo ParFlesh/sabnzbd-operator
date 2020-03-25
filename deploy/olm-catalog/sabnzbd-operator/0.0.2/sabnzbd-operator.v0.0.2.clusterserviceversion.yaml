@@ -169,7 +169,7 @@ spec:
                       fieldPath: metadata.name
                 - name: OPERATOR_NAME
                   value: sabnzbd-operator
-                image: quay.io/parflesh/sabnzbd-operator:0.0.1
+                image: quay.io/parflesh/sabnzbd-operator:0.0.2
                 imagePullPolicy: Always
                 name: sabnzbd-operator
                 resources: {}
